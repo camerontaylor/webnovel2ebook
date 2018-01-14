@@ -24,6 +24,7 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+.vscode/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -34,6 +35,7 @@ MANIFEST
 # Other
 *.epub
 *.jpg
+*.png
 *.exe
 *.xml
 *.xhtml
