@@ -72,7 +72,8 @@ img = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/div/div[1]/i/im
 src = img.get_attribute("src")
 urllib.request.urlretrieve(src, "cover.jpg")
 
-rawMeta = driver.find_elements_by_xpath("/html/body[@class='footer_auto']/div[@class='page']/div[@class='det-hd mb48']/div[@class='g_wrap']/div[@class='det-info g_row c_strong fs16 pr']/div[@class='_mn g_col_8 pr']/address[@class='lh1d5 mb24 pr']/p[@class='ell dib vam']")
+rawMeta = driver.find_elements_by_css_selector("p.ell.dib.vam")
+#rawMeta = driver.find_elements_by_xpath("/html/body[@class='footer_auto']/div[@class='page']/div[@class='det-hd mb48']/div[@class='g_wrap']/div[@class='det-info g_row c_strong fs16 pr']/div[@class='_mn g_col_8 pr']/address[@class='lh1d5 mb24 pr']/p[@class='ell dib vam']")
 meta = [test.text for test in rawMeta]
 for x, y in enumerate(meta):
 	if y.startswith("Author: "):
@@ -84,8 +85,7 @@ popup = driver.find_element_by_xpath("/html/body[@class='footer_auto']/div[@clas
 popup.click()
 time.sleep(1)
 chlistRaw = driver.find_elements_by_css_selector("a.c_strong.vam.ell.db.pr" )
-chlist = [{"link": category.get_attribute("href"), "text": category.text}
-for category in chlistRaw]
+chlist = [{"link": category.get_attribute("href"), "text": category.text} for category in chlistRaw]
 driver.save_screenshot('screenshot.png')
 driver.quit()
 
@@ -101,5 +101,8 @@ for q in range(len(chlistSelection)):
 	getify.clean(str(q))
 	file_list.append(str(q) + "m" + ".xhtml")
 	getify.update_progress(q/len(chlistSelection))
-	
+# Delete empty lines from files
+for n in file_list:
+	getify.remove_empty_lines(n)
+
 getify.generate(file_list, result[select - 1]["text"], info, chlistSelection, str(startingChapter), str(endingChapter))
