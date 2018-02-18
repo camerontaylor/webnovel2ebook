@@ -159,6 +159,7 @@ def generate(html_files, novelname, author, chaptername, chapter_s, chapter_e):
     		<item href="Fonts/Ovo-Regular.ttf" id="Ovo-Regular.ttf" media-type="application/x-font-ttf"/>
     		<item href="Fonts/Andalus.ttf" id="Andalus.ttf" media-type="application/x-font-ttf"/>
 			<item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
+			<item htef="title.xhtml"
 			%(manifest)s
 		</manifest>
 		<spine toc="ncx">
