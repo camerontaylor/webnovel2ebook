@@ -70,7 +70,15 @@ print("Getting Chapter names ,links, cover and metadata...")
 driver.get(website)
 img = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/div/div[1]/i/img')
 src = img.get_attribute("src")
-urllib.request.urlretrieve(src, "cover.jpg")
+urllib.request.urlretrieve(src, "cover.png")
+
+v = "title"
+print("Preparing title page")
+getify.download(website, v)
+getify.create_title(v)
+print("Done!")
+
+print("Counting chapters")
 
 rawMeta = driver.find_elements_by_css_selector("p.ell.dib.vam")
 #rawMeta = driver.find_elements_by_xpath("/html/body[@class='footer_auto']/div[@class='page']/div[@class='det-hd mb48']/div[@class='g_wrap']/div[@class='det-info g_row c_strong fs16 pr']/div[@class='_mn g_col_8 pr']/address[@class='lh1d5 mb24 pr']/p[@class='ell dib vam']")
@@ -80,7 +88,6 @@ for x, y in enumerate(meta):
 		info = y[len("Author: "):] + ", "
 	if y.startswith("Translator: "):
 		info += y[len("Translator: "):]
-
 popup = driver.find_element_by_xpath("/html/body[@class='footer_auto']/div[@class='page']/div[@class='g_wrap det-tab-nav mb48 mt-10 _slide']/a[@class='j_show_contents']/span")
 popup.click()
 time.sleep(1)
@@ -96,11 +103,13 @@ endingChapter = int(input("What's the ending Chapter?: "))
 chlistSelection = chlist[startingChapter - 1 : endingChapter]
 
 file_list = []
+# file_list.append("titlem" + ".xhtml")
 for q in range(len(chlistSelection)):
 	getify.download(chlistSelection[q]["link"], str(q))
 	getify.clean(str(q))
 	file_list.append(str(q) + "m" + ".xhtml")
 	getify.update_progress(q/len(chlistSelection))
+
 # Delete empty lines from files
 for n in file_list:
 	getify.remove_empty_lines(n)

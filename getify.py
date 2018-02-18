@@ -69,6 +69,47 @@ def clean(filename):
 	file.write("</html>")
 	os.remove(filename + ".xhtml")
 	
+
+def create_title(filename):
+	with open(filename + ".xhtml", "r", encoding="utf8") as f:
+		soup = BeautifulSoup(f, "html.parser")
+	#	soup.p.string.wrap(soup.new_tag("i"))
+		synopsis = soup.find("div", {"class": "g_wrap det-abt lh1d8 c_strong fs16 mb48"})
+		synopsis_title = soup.find("h3")
+	#	[s.extract() for s in synopsis('form')]
+	#	[s.extract() for s in synopsis('a')]
+	#	[s.extract() for s in synopsis('script')]
+	#	for div in synopsis("div", {"class": "g_ad_ph"}):
+	#		div.decompose()
+	#	for div in synopsis("div", {"class": "cha-bts"}):
+	#		div.decompose()
+		synopsis = str(synopsis)
+	#	synopsis_title = str(synopsis_title)
+
+	file = open(filename + "m" + ".xhtml", "w", encoding="utf8")
+
+	file.write('''
+	<?xml version="1.0" encoding="utf-8"?>
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml">
+	<head><title>Chapter</title>
+	<link href="../Styles/style.css" rel="stylesheet" type="text/css"/>
+	</head>
+	<body align = "center">
+	<img src="../Images/cover.png">
+	<i>
+	''')
+	#file.write(synopsis_title)
+	for line in synopsis:
+		if "href" not in line:
+			file.write(line)
+	file.write("</i>")
+	file.write("</body>")
+	file.write("</html>")
+	os.remove(filename + ".xhtml")
+
+
 #Displays and updates the download progress bar
 def update_progress(progress):
     barLength = 25 # Modify this to change the length of the progress bar
@@ -150,6 +191,10 @@ def generate(html_files, novelname, author, chaptername, chapter_s, chapter_e):
 	epub.write("Assets/Andalus.ttf", "OEBPS/Fonts/Andalus.ttf")
 	epub.write("Assets/Ovo-Regular.ttf", "OEBPS/Fonts/Ovo-Regular.ttf")
 
+	# Write Title Page and cover
+	epub.write("titlem.xhtml", "OEBPS/Text/Title.xhtml")
+	epub.write("cover.png", "OEBPS/Images/cover.png")
+
 	# Finally, write the index
 	epub.writestr("OEBPS/content.opf", index_tpl % {
 	"metadata": metadata,
@@ -175,7 +220,7 @@ def generate(html_files, novelname, author, chaptername, chapter_s, chapter_e):
 	<navLabel>
     <text>%(novelname)s</text>
     </navLabel>
-	<content src=""/>
+	<content src="OEBPS/Text/Title.xhtml"/>
 				%(toc_mid)s
 		%(toc_end)s'''
 	toc_mid = ""
@@ -193,9 +238,9 @@ def generate(html_files, novelname, author, chaptername, chapter_s, chapter_e):
 		j+=1
 
 	epub.writestr("OEBPS/toc.ncx", toc_start % {"novelname": novelname, "toc_mid": toc_mid, "toc_end": toc_end})
-	epub.write("cover.jpg", "OEBPS/Images/cover.jpg")
+
 	epub.close()
-	os.remove("cover.jpg")
+	os.remove("cover.png")
 	#removes all the temporary files
 	for x in html_files:
 		os.remove(x)
