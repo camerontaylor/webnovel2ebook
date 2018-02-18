@@ -54,7 +54,7 @@ Although the code works as far as I know there are a lot of small bugs that I ha
 ### ToDo list
 
 - Chapter names sometimes are not displayed correctly
-- The ePubs don't have a stylesheet
+- The ePubs don't have a stylesheet (Fixed ✓)
 - Some novels are not working
 
 ## License
