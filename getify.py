@@ -52,8 +52,11 @@ def clean(filename):
 	file = open(filename + "m" + ".xhtml", "w", encoding = "utf8")
 
 	file.write('''
+	<?xml version="1.0" encoding="utf-8"?>
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 	<html xmlns="http://www.w3.org/1999/xhtml">
-	<head><title>%(chapter_title)s</title>
+	<head><title>Chapter</title>
 	<link href="../Styles/style.css" rel="stylesheet" type="text/css"/>
 	</head>
 	<body>
@@ -189,10 +192,10 @@ def generate(html_files, novelname, author, chaptername, chapter_s, chapter_e):
 	  </navPoint>''' % (j, j, chapter, html_files[i])
 		j+=1
 
-epub.writestr("OEBPS/toc.ncx", toc_start % {"novelname": novelname, "toc_mid": toc_mid, "toc_end": toc_end})
-epub.write("cover.jpg", "OEBPS/Images/cover.jpg")
-epub.close()
-os.remove("cover.jpg")
-#removes all the temporary files
-for x in html_files:
-	os.remove(x)
+	epub.writestr("OEBPS/toc.ncx", toc_start % {"novelname": novelname, "toc_mid": toc_mid, "toc_end": toc_end})
+	epub.write("cover.jpg", "OEBPS/Images/cover.jpg")
+	epub.close()
+	os.remove("cover.jpg")
+	#removes all the temporary files
+	for x in html_files:
+		os.remove(x)
