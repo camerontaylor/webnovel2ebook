@@ -6,37 +6,52 @@ import urllib.request
 
 print("Select Category:")
 print("")
-print("1. Popular | Top 30")
-print("2. Xianxia")
-print("3. Xuanhuan")
-print("4. Fantasy")
-print("5. Sci-Fi")
-print("6. Modern")
-print("7. Romance")
-print("8. Gaming")
-print("9. Other")
+print("01. Popular | Top 30")
+print("02. Magical Realism")
+print("03. Fantasy")
+print("04. Historical Fiction")
+print("05. Horror & Thriller")
+print("06. Romance Fiction")
+print("07. Science Fiction")
+print("08. Competitive Sports")
+print("09. Video Games")
+print("10. Eastern Fantasy")
+print("11. Realistic Fiction")
+print("12. Fan-fiction")
+print("13. Martial Arts")
+print("14. Military Fiction")
 
 website = None
 x = int(input("Select a category (Enter Number): "))
 if x == 1:
 	website = "https://www.webnovel.com/category/list?category=0"
 elif x == 2:
-	website = "https://www.webnovel.com/category/list?category=20014"
+	website = "https://www.webnovel.com/category/list?category=Magical%20Realism"
 elif x == 3:
-	website = "https://www.webnovel.com/category/list?category=20001"
+	website = "https://www.webnovel.com/category/list?category=Fantasy"
 elif x == 4:
-	website = "https://www.webnovel.com/category/list?category=20005"
+	website = "https://www.webnovel.com/category/list?category=Historical%20Fiction"
 elif x == 5:
-	website = "https://www.webnovel.com/category/list?category=20042"
+	website = "https://www.webnovel.com/category/list?category=Horror%20%26%20Thriller"
 elif x == 6:
-	website = "https://www.webnovel.com/category/list?category=20019"
+	website = "https://www.webnovel.com/category/list?category=Romance%20Fiction"
 elif x == 7:
-	website = "https://www.webnovel.com/category/list?category=30031"
+	website = "https://www.webnovel.com/category/list?category=Science%20Fiction"
 elif x == 8:
-	website = "https://www.webnovel.com/category/list?category=20050"
+	website = "https://www.webnovel.com/category/list?category=Competitive%20Sports"
 elif x == 9:
-	website = "https://www.webnovel.com/category/list?category=-1"
-	
+	website = "https://www.webnovel.com/category/list?category=Video%20Games"
+elif x == 10:
+	website = "https://www.webnovel.com/category/list?category=Eastern%20Fantasy"
+elif x == 11:
+	website = "https://www.webnovel.com/category/list?category=Realistic%20Fiction"
+elif x == 12:
+	website = "https://www.webnovel.com/category/list?category=Fan-fiction%20"
+elif x == 13:
+	website = "https://www.webnovel.com/category/list?category=Martial%20Arts"	
+elif x == 14:
+	website = "https://www.webnovel.com/category/list?category=War%20%26%20Military%20Fiction"
+
 #Initializes webdriver
 print("Getting Data...")
 driver = webdriver.PhantomJS("phantomjs.exe")
@@ -110,8 +125,5 @@ for q in range(len(chlistSelection)):
 	file_list.append(str(q) + "m" + ".xhtml")
 	getify.update_progress(q/len(chlistSelection))
 
-# Delete empty lines from files
-for n in file_list:
-	getify.remove_empty_lines(n)
 
 getify.generate(file_list, result[select - 1]["text"], info, chlistSelection, str(startingChapter), str(endingChapter))
