@@ -3,86 +3,93 @@ from selenium import webdriver
 import getify
 import time
 import urllib.request
+import sys
+import re
 
-print("Select Category:")
-print("")
-print("01. Popular | Top 30")
-print("02. Magical Realism")
-print("03. Fantasy")
-print("04. Historical Fiction")
-print("05. Horror & Thriller")
-print("06. Romance Fiction")
-print("07. Science Fiction")
-print("08. Competitive Sports")
-print("09. Video Games")
-print("10. Eastern Fantasy")
-print("11. Realistic Fiction")
-print("12. Fan-fiction")
-print("13. Martial Arts")
-print("14. Military Fiction")
+driver = webdriver.PhantomJS()
 
-website = None
-x = int(input("Select a category (Enter Number): "))
-if x == 1:
-	website = "https://www.webnovel.com/category/list?category=0"
-elif x == 2:
-	website = "https://www.webnovel.com/category/list?category=Magical%20Realism"
-elif x == 3:
-	website = "https://www.webnovel.com/category/list?category=Fantasy"
-elif x == 4:
-	website = "https://www.webnovel.com/category/list?category=Historical%20Fiction"
-elif x == 5:
-	website = "https://www.webnovel.com/category/list?category=Horror%20%26%20Thriller"
-elif x == 6:
-	website = "https://www.webnovel.com/category/list?category=Romance%20Fiction"
-elif x == 7:
-	website = "https://www.webnovel.com/category/list?category=Science%20Fiction"
-elif x == 8:
-	website = "https://www.webnovel.com/category/list?category=Competitive%20Sports"
-elif x == 9:
-	website = "https://www.webnovel.com/category/list?category=Video%20Games"
-elif x == 10:
-	website = "https://www.webnovel.com/category/list?category=Eastern%20Fantasy"
-elif x == 11:
-	website = "https://www.webnovel.com/category/list?category=Realistic%20Fiction"
-elif x == 12:
-	website = "https://www.webnovel.com/category/list?category=Fan-fiction%20"
-elif x == 13:
-	website = "https://www.webnovel.com/category/list?category=Martial%20Arts"	
-elif x == 14:
-	website = "https://www.webnovel.com/category/list?category=War%20%26%20Military%20Fiction"
+if len(sys.argv) > 1:
+  website = sys.argv[1]
+else:
+    print("Select Category:")
+    print("")
+    print("01. Popular | Top 30")
+    print("02. Magical Realism")
+    print("03. Fantasy")
+    print("04. Historical Fiction")
+    print("05. Horror & Thriller")
+    print("06. Romance Fiction")
+    print("07. Science Fiction")
+    print("08. Competitive Sports")
+    print("09. Video Games")
+    print("10. Eastern Fantasy")
+    print("11. Realistic Fiction")
+    print("12. Fan-fiction")
+    print("13. Martial Arts")
+    print("14. Military Fiction")
 
-#Initializes webdriver
-print("Getting Data...")
-driver = webdriver.PhantomJS("phantomjs.exe")
-driver.maximize_window()
-driver.get(website)
-#print(website)
+    website = None
+    x = int(input("Select a category (Enter Number): "))
+    if x == 1:
+            website = "https://www.webnovel.com/category/list?category=0"
+    elif x == 2:
+            website = "https://www.webnovel.com/category/list?category=Magical%20Realism"
+    elif x == 3:
+            website = "https://www.webnovel.com/category/list?category=Fantasy"
+    elif x == 4:
+            website = "https://www.webnovel.com/category/list?category=Historical%20Fiction"
+    elif x == 5:
+            website = "https://www.webnovel.com/category/list?category=Horror%20%26%20Thriller"
+    elif x == 6:
+            website = "https://www.webnovel.com/category/list?category=Romance%20Fiction"
+    elif x == 7:
+            website = "https://www.webnovel.com/category/list?category=Science%20Fiction"
+    elif x == 8:
+            website = "https://www.webnovel.com/category/list?category=Competitive%20Sports"
+    elif x == 9:
+            website = "https://www.webnovel.com/category/list?category=Video%20Games"
+    elif x == 10:
+            website = "https://www.webnovel.com/category/list?category=Eastern%20Fantasy"
+    elif x == 11:
+            website = "https://www.webnovel.com/category/list?category=Realistic%20Fiction"
+    elif x == 12:
+            website = "https://www.webnovel.com/category/list?category=Fan-fiction%20"
+    elif x == 13:
+            website = "https://www.webnovel.com/category/list?category=Martial%20Arts"	
+    elif x == 14:
+            website = "https://www.webnovel.com/category/list?category=War%20%26%20Military%20Fiction"
 
-# Collects Title and link of the Book
-elem = driver.find_elements_by_css_selector("a.c_strong")
-result = [{"link": category.get_attribute("href"), "text": category.get_attribute("title")}
-for category in elem]
-result = result[::2]
-	
-# Sorts and makes the data look kinda pretty
-g = 1
-for i in result:
-	if g <= 9:
-		print("0" + str(g) + ". ", end="")
-		print(i["text"])
-		g += 1
-	else:
-		print(str(g) + ". ", end="")
-		print(i["text"])
-		g += 1
-		
-#Gets chapter Names and links
-select = int(input("Which Novel do you want to read?: "))
-website = result[select - 1]["link"]
+    #Initializes webdriver
+    print("Getting Data...")
+    driver.maximize_window()
+    driver.get(website)
+    #print(website)
+
+    # Collects Title and link of the Book
+    elem = driver.find_elements_by_css_selector("a.c_strong")
+    result = [{"link": category.get_attribute("href"), "text": category.get_attribute("title")}
+    for category in elem]
+    result = result[::2]
+            
+    # Sorts and makes the data look kinda pretty
+    g = 1
+    for i in result:
+            if g <= 9:
+                    print("0" + str(g) + ". ", end="")
+                    print(i["text"])
+                    g += 1
+            else:
+                    print(str(g) + ". ", end="")
+                    print(i["text"])
+                    g += 1
+                    
+    #Gets chapter Names and links
+    select = int(input("Which Novel do you want to read?: "))
+    website = result[select - 1]["link"]
 #print(website)
 print("Getting Chapter names ,links, cover and metadata...")
 driver.get(website)
+title = re.search("[^-]*", driver.title).group(0)
 img = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/div/div[1]/i/img')
 src = img.get_attribute("src")
 urllib.request.urlretrieve(src, "cover.png")
@@ -126,4 +133,4 @@ for q in range(len(chlistSelection)):
 	getify.update_progress(q/len(chlistSelection))
 
 
-getify.generate(file_list, result[select - 1]["text"], info, chlistSelection, str(startingChapter), str(endingChapter))
+getify.generate(file_list, title, info, chlistSelection, str(startingChapter), str(endingChapter))
